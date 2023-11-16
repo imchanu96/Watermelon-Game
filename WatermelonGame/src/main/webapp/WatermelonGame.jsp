@@ -5,126 +5,27 @@
 <head>
 <meta charset="UTF-8">
 <title>수박 게임</title>
-<style type="text/css">
-#screen{
-	width: 1200px;
-	height: 900px;
-	margin: auto;
-}
+<link rel="stylesheet" href="/WatermelonGame/resources/WatermelonGame.css" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script>
 
-#background {
-	width: 600px;
-	height: 800px;
-	background-color: #8eedb1;
-	margin: auto;
-	text-align: center;
-}
-
-#gameTitle {
-	width: 200px;
-	height: 250px;
-	margin: auto;
-}
-
-#startButtonDiv {
-	width: inherit;
-	height: 150px;
-	margin: auto;
-}
-
-#startButton {
-	text-decoration: none;
-	font-size: 100px;
-}
-#gameDescription{
-	width: 300px;
-	height: 800px;
-	float: left;
-}
-
-#scoreBoard {
-	width: 100px;
-	height: 20px;
-	border: 1px solid black;
-	text-align: right;
-	margin-top: 20px;
-	margin: auto;
-	padding: 10px;
-	
-}
-
-#score {
-	color: red;
-	margin-right: 10px;
-}
-
-#gameRule{
-	text-align: center;
-}
-
-#circleExample{
-	width: 300px;
-	height: 500px;
-}
-
-.circleImg{
-	border: 1px solid black;
-	border-radius: 100px;
-	text-align: center;
-	margin: 10px 90px;
-	float: left;
-}
-</style>
-<script type="text/javascript">
-	
-	window.onload = function() {
-		var circleList = document.getElementsByClassName("circleImg");
-		let str = "px";
-		for (var i = 0; i < circleList.length; i++) {
-			circleList[i].style.width = (i+2) * 10 + str;
-			circleList[i].style.height = (i+2) * 10 + str;
-		}
-	}
-	
-	function gameStartFnc() {
-		let startButtonDiv = document.getElementById("startButtonDiv");
-
-		startButtonDiv.remove();
-		
-		createCircleFnc();			
-	}
-	
-	function createCircleFnc(){
-		let randomNum = Math.floor(Math.random() * 7) + 1;
-		const circleList = document.getElementsByClassName("circleImg");
-		const newCircle = circleList[randomNum].cloneNode(true);
-		newCircle.style.margin = "0";
-		const background = document.getElementById("background");
-		background.appendChild(newCircle);
-		
-		window.onkeydown = () => {
-			var userKeyCode = "ss";
-			const num = event.keyCode;
-			if (num == 65) {
-				userKeyCode = "A";
-			}else if (num == 83) {
-				userKeyCode = "S";
-			}else if (num == 68) {
-				userKeyCode = "D";
-			}
-			return console.log(userKeyCode);
-		};
-
-	}
-	
-</script>
+<!-- </script> -->
+<script type="text/javascript" src="/WatermelonGame/resources/WatermelonGame.js"></script>
 </head>
 <body>
 	<div id="screen">
 		
 		<div id="gameDescription">
-			<div id="scoreBoard">
-				<span id="score">100</span>점
+			<div id="scoreAndKeyboard">
+				<div id="scoreBoard">
+					<span>SCORE</span>
+					<div id="score">1010100</div>
+				</div>
+				<div id="keyboard">
+					<div id="keyboardW">W</div>
+					<div id="keyboardA">A</div>
+					<div id="keyboardS">S</div>
+					<div id="keyboardD">D</div>
+				</div>
 			</div>
 			<div id="gameRule">
 				<h3>
