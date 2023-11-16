@@ -6,14 +6,12 @@
 <meta charset="UTF-8">
 <title>수박 게임</title>
 <link rel="stylesheet" href="/WatermelonGame/resources/WatermelonGame.css" type="text/css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script>
-
-<!-- </script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.js"></script>
 <script type="text/javascript" src="/WatermelonGame/resources/WatermelonGame.js"></script>
+
 </head>
 <body>
 	<div id="screen">
-		
 		<div id="gameDescription">
 			<div id="scoreAndKeyboard">
 				<div id="scoreBoard">
@@ -70,4 +68,5 @@
 		
 	</div>
 </body>
+
 </html>
