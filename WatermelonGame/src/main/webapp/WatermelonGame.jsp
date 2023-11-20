@@ -16,7 +16,7 @@
 			<div id="scoreAndKeyboard">
 				<div id="scoreBoard">
 					<span>SCORE</span>
-					<div id="score">1010100</div>
+					<div id="score">0</div>
 				</div>
 				<div id="keyboard">
 					<div id="keyboardW">W</div>
@@ -43,13 +43,27 @@
 				</p>
 			</div>
 			<div id="circleExample">
-				<div class="circleImg" style="background-color: red;"></div>
-				<div class="circleImg" style="background-color: orange;"></div>
-				<div class="circleImg" style="background-color: yellow;"></div>
-				<div class="circleImg" style="background-color: green;"></div>
-				<div class="circleImg" style="background-color: blue;"></div>
-				<div class="circleImg" style="background-color: navy;"></div>
-				<div class="circleImg" style="background-color: purple;"></div>
+				<div class="circleImgDescription">1단계 : 빨간색
+					<div class="circleImg" style="background-color: red;"></div>
+				</div>
+				<div class="circleImgDescription">2단계 : 주황색
+					<div class="circleImg" style="background-color: orange;"></div>
+				</div>
+				<div class="circleImgDescription">3단계 : 노란색
+					<div class="circleImg" style="background-color: yellow;"></div>
+				</div>
+				<div class="circleImgDescription">4단계 : 초록색
+					<div class="circleImg" style="background-color: green;"></div>
+				</div>
+				<div class="circleImgDescription">5단계 : 파란색
+					<div class="circleImg" style="background-color: blue;"></div>
+				</div>
+				<div class="circleImgDescription">6단계 : 남색
+					<div class="circleImg" style="background-color: navy;"></div>
+				</div>
+				<div class="circleImgDescription">7단계 : 보라색
+					<div class="circleImg" style="background-color: purple;"></div>
+				</div>
 			</div>
 		</div>
 		<div id="background">
@@ -60,9 +74,6 @@
 				<a href="#" id="startButton" onclick="gameStartFnc();">
 					START
 				</a>
-			</div>
-			<div id="gameScreen">
-			
 			</div>
 		</div>
 		

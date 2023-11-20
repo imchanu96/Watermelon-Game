@@ -5,31 +5,27 @@
 	const Body = Matter.Body;
 	const Bodies = Matter.Bodies;
 	const World = Matter.World;
+	const Events = Matter.Events;
+	
 	
 	
 	let selectCircle = null;
 	let disableAction = false;
+	let endlessGame = false;
+	const circleRadius = [10, 20, 30, 40, 50, 60, 70];
+	const circleColor = ["red", "orange", "yellow", "green", "blue", "navy", "purple"];
+	
 	
 	// create an engine
 	const engine = Engine.create();
+	const score = document.getElementById("score");
 
-window.onload = function() {
-	const circleList = document.getElementsByClassName("circleImg");
-	const str = "px";
-	for (var i = 0; i < circleList.length; i++) {
-		circleList[i].style.width = (i + 2) * 10 + str;
-		circleList[i].style.height = (i + 2) * 10 + str;
-	}
-	
-	
-}
 
 function gameStartFnc() {
 	const startButtonDiv = document.getElementById("startButtonDiv");
-
+	
 	startButtonDiv.remove();
-	
-	
+
 	// create a renderer
 	const render = Render.create({
 	    element: document.querySelector("#background"),
@@ -61,27 +57,34 @@ function gameStartFnc() {
 			fillStyle: "brown"
 		}
 	});
-	
 	// Add the bodies to the world
 	World.add(engine.world, [leftWall, rightWall, ground]);
 	createCircleFnc();
 	
 	function createCircleFnc() {
-	const circleRadius = [10, 20, 30, 40, 50];
-	const index = Math.floor(Math.random() * 5);
+		
+		const index = Math.floor(Math.random() * 5);
+		
+		const radius = circleRadius[index];
+		const color = circleColor[index];
 	
-	const radius = circleRadius[index];
-
-	// bodies.circle(x축의 시작점, y축의 시작점, 반지름)
-	const newCircle = Bodies.circle(300, 0 + radius, radius, {
-		isSleeping: true
-		}
-	);
+		// bodies.circle(x축의 시작점, y축의 시작점, 반지름)
+		const newCircle = Bodies.circle(300, 0 + radius, radius, {
+			index: index,
+			isSleeping: true,
+			render: {
+					fillStyle: color,
+//					text: {
+//						content: "text",
+//						color: "black",
+//					}
+			}
+		});
 	
-	selectCircle = newCircle;
-	
-	World.add(engine.world, newCircle);
-	disableAction = false;
+		selectCircle = newCircle;
+		
+		World.add(engine.world, newCircle);
+		disableAction = false;
 	} // 새로운 구 생성
 
 	// Run the engine
@@ -94,24 +97,27 @@ function gameStartFnc() {
 		const userKeyCode = event.code;
 		const keyboardWASD = document.getElementById("keyboard").children;
 		if(disableAction == false){
-			if (userKeyCode == "KeyA") {
+//			console.log(leftWall.position.x + selectCircle.circleRadius);
+			if (userKeyCode == "KeyA" && (selectCircle.position.x - selectCircle.circleRadius > 10)) {
 			keyboardWASD[1].style.backgroundColor = "gray";
 			Body.setPosition (selectCircle, {
 				x: selectCircle.position.x - 10,
 				y: selectCircle.position.y,
 			});
 			
-		} else if (userKeyCode == "KeyS") {
+		}
+		if (userKeyCode == "KeyS") {
 			keyboardWASD[2].style.backgroundColor = "gray";
 			
 			disableAction = true;
 			selectCircle.isSleeping = false;
-			selectCircle = null;
+//			selectCircle = null;
 			
 			setTimeout(() => {				
 				createCircleFnc();
 			}, 1000);
-		} else if (userKeyCode == "KeyD") {
+		}
+		if (userKeyCode == "KeyD" && (selectCircle.position.x + selectCircle.circleRadius < 590)) {
 			Body.setPosition (selectCircle, {
 				x: selectCircle.position.x + 10,
 				y: selectCircle.position.y,
@@ -128,8 +134,39 @@ function gameStartFnc() {
 			keyboardWASD[i].removeAttribute("style");
 		}
 	}
+	
 }
 
+Events.on(engine, "collisionStart", (event) => {
+		event.pairs.forEach((collision) => {
+			if (collision.bodyA.index === collision.bodyB.index) {
+				const index = collision.bodyA.index;
+				if(endlessGame == false){
+					if(index === circleRadius.length - 1){
+						alert("수박 완성!!!");
+						endlessGame = true;		
+					}
+				}
+					World.remove(engine.world, [collision.bodyA, collision.bodyB]);
+				
+				const newCircle = Bodies.circle(
+					collision.collision.supports[0].x,
+					collision.collision.supports[0].y,
+					circleRadius[index + 1],
+					{
+						index: index + 1,
+						render:{
+							fillStyle: circleColor[index + 1],
+						}
+					}
+					
+				)
+//				console.log(score.textContent);
+				score.textContent = parseInt(score.textContent) + parseInt(circleRadius[index]);
+				World.add(engine.world, newCircle);
+			}
+		});
+	});
 
 
 
