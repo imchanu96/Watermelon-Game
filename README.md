@@ -11,4 +11,4 @@ matter.js를 이용하여 구현해본 수박 게임입니다.
 - 점수판 추가
 - 키보드 이벤트 확인할 수있도록 추가
 <br>
-<a href="https://imchanu96.github.io/Watermelon-Game/">이미지를 클릭하면 사이트로 이동합니다.<img src="https://github.com/imchanu96/Watermelon-Game/assets/54897384/3c46252e-190f-49cd-8f1b-0db80345aed0"></a>
+<a href="https://imchanu96.github.io/Watermelon-Game/">이미지를 클릭하면 사이트로 이동합니다.<img src="https://github.com/imchanu96/Watermelon-Game/assets/54897384/29d6ea55-1720-42e0-a6f5-c6858e26aeff"></a>
