@@ -183,7 +183,7 @@ Events.on(engine, "collisionStart", (event) => {
 					maxCircle.style.backgroundColor = circleColor[colorLoop];
 					maxCircle.textContent = parseInt(maxCircle.textContent) + 1;
 					if(endlessGame == false){
-						alert("수박 완성!!!");
+						alert("마지막 동그라미 완성!!!");
 						endlessGame = true;		
 					}
 				}
