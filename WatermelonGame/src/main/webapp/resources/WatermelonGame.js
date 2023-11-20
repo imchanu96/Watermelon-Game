@@ -12,6 +12,7 @@
 	let selectCircle = null;
 	let disableAction = false;
 	let endlessGame = false;
+	let interval = null;
 	const circleRadius = [10, 20, 30, 40, 50, 60, 70];
 	const circleColor = ["red", "orange", "yellow", "green", "blue", "navy", "purple"];
 	
@@ -58,13 +59,22 @@ function gameStartFnc() {
 			fillStyle: "brown"
 		}
 	});
+	const deadLine = Bodies.rectangle(300, 150, 800, 10, {
+		name: "deadLine",
+		isStatic: true ,
+		isSensor: true ,
+		render: {
+			fillStyle: "red"
+		}
+	});
+	
 	// Add the bodies to the world
-	World.add(engine.world, [leftWall, rightWall, ground]);
+	World.add(engine.world, [leftWall, rightWall, ground, deadLine]);
 	createCircleFnc();
 	
 	function createCircleFnc() {
 		
-		const index = Math.floor(Math.random() * 5);
+		const index = Math.floor(Math.random() * 7);
 		
 		const radius = circleRadius[index];
 		const color = circleColor[index];
@@ -79,7 +89,8 @@ function gameStartFnc() {
 //						content: "text",
 //						color: "black",
 //					}
-			}
+			},
+			restitution: 0.4,
 		});
 	
 		selectCircle = newCircle;
@@ -95,44 +106,62 @@ function gameStartFnc() {
 	Render.run(render);
 	
 	window.onkeydown = (event) => {
-		const userKeyCode = event.code;
 		const keyboardWASD = document.getElementById("keyboard").children;
-		if(disableAction == false){
-//			console.log(leftWall.position.x + selectCircle.circleRadius);
-			if (userKeyCode == "KeyA" && (selectCircle.position.x - selectCircle.circleRadius > 10)) {
-			keyboardWASD[1].style.backgroundColor = "gray";
-			Body.setPosition (selectCircle, {
-				x: selectCircle.position.x - 10,
-				y: selectCircle.position.y,
-			});
-			
-		}
-		if (userKeyCode == "KeyS") {
-			keyboardWASD[2].style.backgroundColor = "gray";
-			
-			disableAction = true;
-			selectCircle.isSleeping = false;
-//			selectCircle = null;
-			
-			setTimeout(() => {				
-				createCircleFnc();
-			}, 1);
-		}
-		if (userKeyCode == "KeyD" && (selectCircle.position.x + selectCircle.circleRadius < 590)) {
-			Body.setPosition (selectCircle, {
-				x: selectCircle.position.x + 10,
-				y: selectCircle.position.y,
-			});
-			keyboardWASD[3].style.backgroundColor = "gray";
-		}
-		// 			return console.log(userKeyCode);
+		if (disableAction == false) {
+			//			console.log(leftWall.position.x + selectCircle.circleRadius);
+			switch (event.code) {
+				case "KeyA":
+					if (interval)
+						return;
+					interval = setInterval(() => {
+						if (selectCircle.position.x - selectCircle.circleRadius > 10) {
+							keyboardWASD[1].style.backgroundColor = "gray";
+							Body.setPosition(selectCircle, {
+								x: selectCircle.position.x - 1,
+								y: selectCircle.position.y,
+							});
+						}
+					}, 5);
+					break;
+				case "KeyS":
+					keyboardWASD[2].style.backgroundColor = "gray";
+
+					disableAction = true;
+					selectCircle.isSleeping = false;
+					//			selectCircle = null;
+
+					setTimeout(() => {
+						createCircleFnc();
+					}, 1000);
+					break;
+				case "KeyD":
+					if (interval)
+						return;
+					interval = setInterval(() => {
+						if ((selectCircle.position.x + selectCircle.circleRadius < 590)) {
+							keyboardWASD[3].style.backgroundColor = "gray";
+							Body.setPosition(selectCircle, {
+								x: selectCircle.position.x + 1,
+								y: selectCircle.position.y,
+							});
+						}
+					}, 5);
+					break;
+			}
 		}
 	}
 
-	window.onkeyup = () => {
+	window.onkeyup = (event) => {
 		const keyboardWASD = document.getElementById("keyboard").children;
-		for (var i = 0; i < keyboardWASD.length; i++) {
-			keyboardWASD[i].removeAttribute("style");
+		switch(event.code){
+			case "KeyA":
+			case "KeyS":
+			case "KeyD":
+				for(var i = 0; i < keyboardWASD.length; i++){
+					keyboardWASD[i].removeAttribute("style");
+				}
+				clearInterval(interval);
+				interval = null;	
 		}
 	}
 	
@@ -143,9 +172,15 @@ Events.on(engine, "collisionStart", (event) => {
 			if (collision.bodyA.index === collision.bodyB.index) {
 				const index = collision.bodyA.index;
 				
+				maxCircle = document.getElementById("maxCircle");
+				let colorLoop = parseInt(maxCircle.textContent);
+//				console.log("colorLoop : " + colorLoop);
+				while(colorLoop >=  circleColor.length){
+					colorLoop = colorLoop - parseInt(circleColor.length);
+				}
+				
 				if(index === circleRadius.length - 1){
-					maxCircle = document.getElementById("maxCircle");
-					maxCircle.style.backgroundColor = circleColor[maxCircle.textContent];
+					maxCircle.style.backgroundColor = circleColor[colorLoop];
 					maxCircle.textContent = parseInt(maxCircle.textContent) + 1;
 					if(endlessGame == false){
 						alert("수박 완성!!!");
@@ -167,12 +202,21 @@ Events.on(engine, "collisionStart", (event) => {
 					
 				)
 				score = document.getElementById("score");
-				console.log(score);
+//				console.log(score);
 				score.textContent = parseInt(score.textContent) + parseInt(circleRadius[index]);
 				World.add(engine.world, newCircle);
 			}
+			
+			if(!disableAction &&
+				(collision.bodyA.name === "deadLine" || collision.bodyB.name === "deadLine")){
+				alert("Game Over");
+				window.onkeydown = null;
+				window.onkeyup = null;
+				alert("다시 하시려면 F5를 눌러주세요");
+			}
 		});
 	});
+
 
 
 
