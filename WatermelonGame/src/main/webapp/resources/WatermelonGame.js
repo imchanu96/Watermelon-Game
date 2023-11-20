@@ -74,7 +74,7 @@ function gameStartFnc() {
 	
 	function createCircleFnc() {
 		
-		const index = Math.floor(Math.random() * 7);
+		const index = Math.floor(Math.random() * 3);
 		
 		const radius = circleRadius[index];
 		const color = circleColor[index];
