@@ -113,5 +113,15 @@
 	border-radius: 100px;
 	margin-right: 100px;
 	float: right;
+}
 
+#maxCircle{
+	width: 30px;
+	height: 25px;
+	margin: auto 0px;
+	margin-right: 100px;
+	float: right;
+	color: white;
+	background-color: black; 
+	text-align: center;
 }

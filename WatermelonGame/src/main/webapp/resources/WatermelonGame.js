@@ -18,7 +18,8 @@
 	
 	// create an engine
 	const engine = Engine.create();
-	const score = document.getElementById("score");
+	let score = null;
+	let maxCircle = null;
 
 
 function gameStartFnc() {
@@ -115,7 +116,7 @@ function gameStartFnc() {
 			
 			setTimeout(() => {				
 				createCircleFnc();
-			}, 1000);
+			}, 1);
 		}
 		if (userKeyCode == "KeyD" && (selectCircle.position.x + selectCircle.circleRadius < 590)) {
 			Body.setPosition (selectCircle, {
@@ -141,8 +142,12 @@ Events.on(engine, "collisionStart", (event) => {
 		event.pairs.forEach((collision) => {
 			if (collision.bodyA.index === collision.bodyB.index) {
 				const index = collision.bodyA.index;
-				if(endlessGame == false){
-					if(index === circleRadius.length - 1){
+				
+				if(index === circleRadius.length - 1){
+					maxCircle = document.getElementById("maxCircle");
+					maxCircle.style.backgroundColor = circleColor[maxCircle.textContent];
+					maxCircle.textContent = parseInt(maxCircle.textContent) + 1;
+					if(endlessGame == false){
 						alert("수박 완성!!!");
 						endlessGame = true;		
 					}
@@ -161,7 +166,8 @@ Events.on(engine, "collisionStart", (event) => {
 					}
 					
 				)
-//				console.log(score.textContent);
+				score = document.getElementById("score");
+				console.log(score);
 				score.textContent = parseInt(score.textContent) + parseInt(circleRadius[index]);
 				World.add(engine.world, newCircle);
 			}

@@ -34,12 +34,18 @@
 				</p>
 				<p>
 					2. A, S, D로 작동 합니다.
+					<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - A : 좌로 이동
+					<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - S : 동그라미 떨구기
+					<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - D : 우로 이동
 				</p>
 				<p>
 					3. 같은 크기의 동그라미가 붙게되면 좀 더 커다란 동그라미가 됩니다.
 				</p>
 				<p>
-					4. 7번째의 동그라미를 만들면 이기게 됩니다.
+					4. 7번째의 동그라미 두개가 합치면됩니다.
 				</p>
 			</div>
 			<div id="circleExample">
@@ -64,8 +70,12 @@
 				<div class="circleImgDescription">7단계 : 보라색
 					<div class="circleImg" style="background-color: purple;"></div>
 				</div>
+				<div class="circleImgDescription">7단계 합친 수
+					<div id="maxCircle">0</div>
+				</div>
 			</div>
 		</div>
+		<img alt="" src="">
 		<div id="background">
 			<div id="startButtonDiv">
 				<h1 id="gameTitle">
